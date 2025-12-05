@@ -18,21 +18,48 @@ export default function LoginPage() {
     setIsLoading(true);
     
     try {
-      const res = await fetch('http://localhost:3000/api/login', {
+      // 1. Login
+      const loginRes = await fetch('http://localhost:3000/api/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json'},
+        credentials: 'include', // Important pour les cookies
         body: JSON.stringify({ username: username.trim() }),
       });
       
-      if (res.ok) {
-        const data = await res.json();
-        // Store basic profile for UI, but session is handled by cookies
-        const profile = { username: data.username, joinedAt: Date.now() };
-        localStorage.setItem('xssctf_profile', JSON.stringify(profile));
-        router.push('/lobby');
-      } else {
+      if (!loginRes.ok) {
         alert('> ERROR: LOGIN FAILED');
         setIsLoading(false);
+        return;
+      }
+
+      const loginData = await loginRes.json();
+      
+      // 2. Récupérer la progression depuis la base de données
+      const profileRes = await fetch('http://localhost:3000/api/profile', {
+        credentials: 'include'
+      });
+
+      if (profileRes.ok) {
+        const profileData = await profileRes.json();
+        
+        // 3. Synchroniser avec localStorage
+        const profile = { 
+          username: profileData.username, 
+          joinedAt: Date.now() 
+        };
+        localStorage.setItem('xssctf_profile', JSON.stringify(profile));
+        
+        // Synchroniser la progression
+        if (profileData.progress) {
+          localStorage.setItem('xssctf_progress', JSON.stringify(profileData.progress));
+        }
+        
+        router.push('/lobby');
+      } else {
+        // Fallback si le profil n'est pas disponible
+        const profile = { username: loginData.username, joinedAt: Date.now() };
+        localStorage.setItem('xssctf_profile', JSON.stringify(profile));
+        router.push('/lobby');
       }
     } catch (e) {
       console.error(e);
@@ -47,20 +74,47 @@ export default function LoginPage() {
     
     setIsLoading(true);
     try {
-      const res = await fetch('http://localhost:3000/api/login', {
+      // 1. Login
+      const loginRes = await fetch('http://localhost:3000/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ username: demoUser }),
       });
       
-      if (res.ok) {
-        const data = await res.json();
-        const profile = { username: data.username, joinedAt: Date.now() };
+      if (!loginRes.ok) {
+        alert('> ERROR: DEMO LOGIN FAILED');
+        setIsLoading(false);
+        return;
+      }
+
+      const loginData = await loginRes.json();
+      
+      // 2. Récupérer la progression
+      const profileRes = await fetch('http://localhost:3000/api/profile', {
+        credentials: 'include'
+      });
+
+      if (profileRes.ok) {
+        const profileData = await profileRes.json();
+        
+        // 3. Synchroniser
+        const profile = { username: profileData.username, joinedAt: Date.now() };
+        localStorage.setItem('xssctf_profile', JSON.stringify(profile));
+        
+        if (profileData.progress) {
+          localStorage.setItem('xssctf_progress', JSON.stringify(profileData.progress));
+        }
+        
+        router.push('/lobby');
+      } else {
+        const profile = { username: loginData.username, joinedAt: Date.now() };
         localStorage.setItem('xssctf_profile', JSON.stringify(profile));
         router.push('/lobby');
       }
     } catch (e) {
       console.error(e);
+      alert('> ERROR: CONNECTION FAILED');
       setIsLoading(false);
     }
   };
