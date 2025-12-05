@@ -2,49 +2,49 @@
 
 ---
 
-## ?? Description
+## Description
 
-**HackMatrixHILOX** est une plateforme gamifiée d'apprentissage des vulnérabilités XSS (Cross-Site Scripting) avec :
+**HackMatrixHILOX** est une plateforme gamifiÃ©e d'apprentissage des vulnÃ©rabilitÃ©s XSS (Cross-Site Scripting) avec :
 
 - ? **6 niveaux de challenges** progressifs
-- ? **Base de données SQLite** pour la persistance
-- ? **Temps réel** avec Socket.IO
-- ? **Design rétro "Red Team"** immersif
-- ? **Navigateur vulnérable** simulé
+- ? **Base de donnÃ©es SQLite** pour la persistance
+- ? **Temps rÃ©el** avec Socket.IO
+- ? **Design rÃ©tro "Red Team"** immersif
+- ? **Navigateur vulnÃ©rable** simulÃ©
 - ? **Terminal hacker** interactif
 
 ---
 
-## ?? Défi AEDI : La Faille la Plus Maligne
+## DÃ©fi AEDI : La Faille la Plus Maligne
 
-Ce projet démontre la **Stored XSS** (XSS Stockée), l'une des failles les plus dangereuses :
+Ce projet dÃ©montre la **Stored XSS** (XSS StockÃ©e), l'une des failles les plus dangereuses :
 
-- **Persistante** : Le code malveillant est stocké en base de données
-- **Propagation automatique** : Tous les utilisateurs sont affectés
+- **Persistante** : Le code malveillant est stockÃ© en base de donnÃ©es
+- **Propagation automatique** : Tous les utilisateurs sont affectÃ©s
 - **Impact massif** : Une seule injection compromet des milliers d'utilisateurs
 
-?? **Documentation complète** : `AEDI_DEFI_FAILLE.md`
+?? **Documentation complÃ¨te** : `AEDI_DEFI_FAILLE.md`
 
 ---
 
-## ?? Installation
+## Installation
 
-### Prérequis
+### PrÃ©requis
 
-- Node.js 18+ ([Télécharger](https://nodejs.org/))
+- Node.js 18+ ([TÃ©lÃ©charger](https://nodejs.org/))
 - npm ou yarn
 
-### Étapes
+### Ã‰tapes
 
 ```bash
 # 1. Cloner le projet
-git clone [URL_DU_REPO]
+git clone https://github.com/HiloxTeamNuitDeInfo2025/AEDI-Project-Nuit-de-l-info.git
 cd AEDI-Project-Nuit-de-l-info
 
-# 2. Installer les dépendances backend
+# 2. Installer les dÃ©pendances backend
 npm install
 
-# 3. Installer les dépendances frontend
+# 3. Installer les dÃ©pendances frontend
 cd frontend
 npm install
 cd ..
@@ -78,32 +78,32 @@ npm run dev
 ```
 AEDI-Project-Nuit-de-l-info/
 +-- database/
-¦   +-- schema.sql          # Schéma SQLite
-¦   +-- db.js               # Gestionnaire de base de données
-¦   +-- HackMatrixHILOX.db         # Base de données (auto-créée)
+Â¦   +-- schema.sql          # SchÃ©ma SQLite
+Â¦   +-- db.js               # Gestionnaire de base de donnÃ©es
+Â¦   +-- HackMatrixHILOX.db         # Base de donnÃ©es (auto-crÃ©Ã©e)
 +-- frontend/
-¦   +-- app/
-¦   ¦   +-- page.tsx        # Page de login
-¦   ¦   +-- lobby/          # Lobby multijoueur
-¦   ¦   +-- game/           # Interface de jeu
-¦   ¦   +-- victory/        # Écran de victoire
-¦   ¦   +-- components/
-¦   ¦       +-- MatrixRain.tsx
-¦   ¦       +-- VulnerableBrowser.tsx
-¦   +-- package.json
+Â¦   +-- app/
+Â¦   Â¦   +-- page.tsx        # Page de login
+Â¦   Â¦   +-- lobby/          # Lobby multijoueur
+Â¦   Â¦   +-- game/           # Interface de jeu
+Â¦   Â¦   +-- victory/        # Ã‰cran de victoire
+Â¦   Â¦   +-- components/
+Â¦   Â¦       +-- MatrixRain.tsx
+Â¦   Â¦       +-- VulnerableBrowser.tsx
+Â¦   +-- package.json
 +-- server.js               # Backend Node.js + Express
 +-- package.json
-+-- AEDI_DEFI_FAILLE.md    # Documentation du défi
++-- AEDI_DEFI_FAILLE.md    # Documentation du dÃ©fi
 +-- README.md
 ```
 
 ---
 
-## ??? Base de Données SQLite
+## ??? Base de DonnÃ©es SQLite
 
 ### Tables
 
-**users** : Utilisateurs enregistrés
+**users** : Utilisateurs enregistrÃ©s
 
 ```sql
 id, username, created_at, last_login
@@ -121,7 +121,7 @@ id, user_id, created_at, expires_at
 id, user_id, current_step, total_score, completed
 ```
 
-**captured_flags** : Flags capturés
+**captured_flags** : Flags capturÃ©s
 
 ```sql
 id, user_id, flag_text, step_number, points_earned, captured_at
@@ -141,7 +141,7 @@ username, total_score, current_step, flags_captured, completed
 
 | Level | Type            | Description                      | Points |
 | ----- | --------------- | -------------------------------- | ------ |
-| 1     | Reflected XSS   | Barre de recherche non sécurisée | 1000   |
+| 1     | Reflected XSS   | Barre de recherche non sÃ©curisÃ©e | 1000   |
 | 2     | Cookie Stealing | Vol de cookies de session        | 990    |
 | 3     | **Stored XSS**  | Commentaires persistants ?      | 980    |
 | 4     | DOM-Based XSS   | Manipulation client-side         | 970    |
@@ -156,7 +156,7 @@ username, total_score, current_step, flags_captured, completed
 
 - `POST /api/login` - Connexion
 - `GET /api/profile` - Profil utilisateur
-- `POST /api/logout` - Déconnexion
+- `POST /api/logout` - DÃ©connexion
 
 ### Jeu
 
@@ -164,16 +164,16 @@ username, total_score, current_step, flags_captured, completed
 - `GET /api/lobby` - Liste des joueurs
 - `GET /api/leaderboard` - Classement
 
-### Système
+### SystÃ¨me
 
 - `GET /` - Info API
-- `GET /health` - Santé du serveur
+- `GET /health` - SantÃ© du serveur
 
 ---
 
 ## ?? Design
 
-### Thème "Red Team Alert"
+### ThÃ¨me "Red Team Alert"
 
 - **Couleurs** : Rouge (#ff0033), Orange (#ffb000)
 - **Polices** : VT323, Press Start 2P, Share Tech Mono
@@ -181,21 +181,21 @@ username, total_score, current_step, flags_captured, completed
 
 ### Composants
 
-- **MatrixRain** : Effet de pluie de caractères
-- **VulnerableBrowser** : Navigateur simulé avec failles
+- **MatrixRain** : Effet de pluie de caractÃ¨res
+- **VulnerableBrowser** : Navigateur simulÃ© avec failles
 - **Terminal** : Console interactive pour hacker
 
 ---
 
 ## ??? Protection Contre les XSS
 
-### 1. Échappement (Escaping)
+### 1. Ã‰chappement (Escaping)
 
 ```jsx
-// ? Vulnérable
+// ? VulnÃ©rable
 <div dangerouslySetInnerHTML={{ __html: userInput }} />
 
-// ? Sécurisé
+// ? SÃ©curisÃ©
 <div>{userInput}</div>
 ```
 
@@ -244,19 +244,19 @@ curl http://localhost:3000/api/leaderboard
 
 ---
 
-## ?? Dépannage
+## ?? DÃ©pannage
 
-### Port 3000 déjà utilisé
+### Port 3000 dÃ©jÃ  utilisÃ©
 
 ```powershell
 Get-Process -Name node | Stop-Process -Force
 ```
 
-### Base de données corrompue
+### Base de donnÃ©es corrompue
 
 ```bash
 rm database/HackMatrixHILOX.db
-npm start  # Recrée automatiquement
+npm start  # RecrÃ©e automatiquement
 ```
 
 ### Erreur SQLite
@@ -272,11 +272,11 @@ npm install sqlite3 --build-from-source
 - **Lignes de code** : ~2500
 - **Technologies** : 8 (Node.js, Express, SQLite, Socket.IO, Next.js, React, Tailwind, TypeScript)
 - **Challenges** : 6 niveaux
-- **Temps de développement** : 1 nuit ??
+- **Temps de dÃ©veloppement** : 1 nuit ??
 
 ---
 
-## ?? Équipe
+## ?? Ã‰quipe
 
 **Hilox Team** - Nuit de l'Info 2025
 
@@ -284,16 +284,16 @@ npm install sqlite3 --build-from-source
 
 ## ?? Avertissement
 
-Ce projet est **uniquement à des fins éducatives**. Les techniques démontrées ne doivent **jamais** être utilisées sur des systèmes réels sans autorisation. L'utilisation malveillante est **illégale**.
+Ce projet est **uniquement Ã  des fins Ã©ducatives**. Les techniques dÃ©montrÃ©es ne doivent **jamais** Ãªtre utilisÃ©es sur des systÃ¨mes rÃ©els sans autorisation. L'utilisation malveillante est **illÃ©gale**.
 
-**Apprenez pour protéger, pas pour attaquer.**
+**Apprenez pour protÃ©ger, pas pour attaquer.**
 
 ---
 
 ## ?? Licence
 
-MIT License - Libre d'utilisation pour l'éducation
+MIT License - Libre d'utilisation pour l'Ã©ducation
 
 ---
 
-_Développé avec ?? et ? pour la Nuit de l'Info 2025_
+_DÃ©veloppÃ© avec ?? et ? pour la Nuit de l'Info 2025_
