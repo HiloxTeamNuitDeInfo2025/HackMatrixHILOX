@@ -24,27 +24,35 @@ export default function MatrixRain() {
       drops[i] = Math.random() * -100;
     }
 
-    function draw() {
+    const draw = () => {
       if (!ctx || !canvas) return;
       
-      ctx.fillStyle = 'rgba(0, 26, 0, 0.05)';
+      // Dark red background with fade
+      ctx.fillStyle = 'rgba(26, 0, 0, 0.05)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = '#00ff41';
       ctx.font = `${fontSize}px monospace`;
 
+      // Draw characters
       for (let i = 0; i < drops.length; i++) {
-        const text = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        const x = i * fontSize;
+        const y = drops[i] * fontSize;
 
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        // Red theme with varying opacity
+        ctx.fillStyle = `rgba(255, 0, 51, ${Math.random() * 0.5 + 0.5})`;
+        ctx.fillText(char, x, y);
+
+        // Randomly reset drops
+        if (y > canvas.height && Math.random() > 0.975) {
           drops[i] = 0;
         }
+
         drops[i]++;
       }
-    }
+    };
 
-    const interval = setInterval(draw, 33);
+    const interval = setInterval(draw, 50);
 
     const handleResize = () => {
       canvas.width = window.innerWidth;

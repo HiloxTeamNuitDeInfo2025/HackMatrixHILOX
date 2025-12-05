@@ -115,6 +115,105 @@ export default function VulnerableBrowser({ level, onExploit }: VulnerableBrowse
           </div>
         );
 
+      case 4: // DOM-Based XSS
+        return (
+          <div className="p-4 bg-white text-black font-sans h-full">
+            <h2 className="text-2xl font-bold mb-4 text-indigo-600">URL Router App</h2>
+            <p className="mb-4">Current hash: <span id="hash-display" className="font-mono bg-gray-100 p-1">{content || window.location.hash}</span></p>
+            <input 
+              type="text" 
+              value={content}
+              onChange={(e) => {
+                setContent(e.target.value);
+                // Simulate unsafe DOM manipulation
+                if (e.target.value.includes('<img') || e.target.value.includes('onerror')) {
+                  onExploit('FLAG{STEP4_DOM}');
+                  alert('DOM XSS EXECUTED: Client-side injection!');
+                }
+              }}
+              className="border p-2 w-full mb-4"
+              placeholder="Enter hash value (e.g., #page=home)"
+            />
+            <div className="border p-4 bg-gray-50">
+              <p>Rendered content:</p>
+              <div dangerouslySetInnerHTML={{ __html: content }} />
+            </div>
+          </div>
+        );
+
+      case 5: // CSP Bypass
+        return (
+          <div className="p-4 bg-white text-black font-sans h-full">
+            <h2 className="text-2xl font-bold mb-4 text-orange-600">Secure Portal (CSP Enabled)</h2>
+            <div className="mb-4 bg-yellow-50 border border-yellow-300 p-2 text-xs">
+              <strong>CSP Header:</strong> script-src 'self' https://trusted-cdn.com
+            </div>
+            <p className="mb-4">Upload widget configuration:</p>
+            <textarea 
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className="w-full border p-2 mb-2 font-mono text-sm"
+              placeholder='Try: <script src="https://trusted-cdn.com/exploit.js"></script>'
+              rows={4}
+            />
+            <button 
+              onClick={() => {
+                if (content.includes('trusted-cdn.com') && content.includes('<script')) {
+                  onExploit('FLAG{STEP5_CSP_BYPASS}');
+                  alert('CSP BYPASSED: Script loaded from whitelisted domain!');
+                }
+              }}
+              className="bg-orange-600 text-white px-4 py-2"
+            >
+              Apply Config
+            </button>
+            <div className="mt-4 border p-4">
+              <div dangerouslySetInnerHTML={{ __html: content }} />
+            </div>
+          </div>
+        );
+
+      case 6: // Filter Evasion (Final Boss)
+        return (
+          <div className="p-4 bg-white text-black font-sans h-full">
+            <h2 className="text-2xl font-bold mb-4 text-red-600">Ultra-Secure Input (WAF Protected)</h2>
+            <div className="mb-4 bg-red-50 border border-red-300 p-2 text-xs">
+              <strong>Filters Active:</strong> &lt;script&gt;, onerror, onclick, eval(), alert()
+            </div>
+            <p className="mb-4">Message board (all inputs are filtered):</p>
+            <textarea 
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className="w-full border p-2 mb-2 font-mono text-sm"
+              placeholder="Try polyglot payloads or encoding tricks..."
+              rows={4}
+            />
+            <button 
+              onClick={() => {
+                // Simulate filter bypass detection
+                const bypasses = [
+                  '<img src=x onerror=confirm(1)>',
+                  '<svg/onload=alert(1)>',
+                  '<iframe src="javascript:alert(1)">',
+                  '"><script>alert(String.fromCharCode(88,83,83))</script>'
+                ];
+                
+                if (bypasses.some(bypass => content.includes(bypass.substring(0, 10)))) {
+                  onExploit('FLAG{STEP6_FINAL}');
+                  alert('FILTER BYPASSED: Advanced evasion successful!');
+                }
+              }}
+              className="bg-red-600 text-white px-4 py-2"
+            >
+              Post Message
+            </button>
+            <div className="mt-4 border p-4 bg-gray-50">
+              <p className="text-sm text-gray-600 mb-2">Posted messages:</p>
+              <div dangerouslySetInnerHTML={{ __html: content }} />
+            </div>
+          </div>
+        );
+
       default:
         return (
           <div className="flex items-center justify-center h-full text-gray-500">
